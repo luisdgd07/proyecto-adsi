@@ -266,38 +266,37 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="edit" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="antecedentes" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Antecedentes de:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="toggleModalEditclient()">
+                <h5 class="modal-title" id="exampleModalLongTitle">Antecedentes de: <span id="historialA"></span> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="toggleModalAntecedentes()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="namee">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="lnamee">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">DNI</label>
-                        <input type="text" class="form-control" id="phonee">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Telefono</label>
-                        <input type="text" class="form-control" id="dnie">
-                    </div>
-                </form>
+                <h3 class="text-center">Agregar Antecedentes</h3>
+                <div class="row">
+                    <select class="form-control" name="" id="antecedentesPaciente"></select>
+                </div>
+
+                <div class="row">
+                    <button class="mt-2 btn btn-success" onclick="agregarAntecedente()">Agregar a los antecedentes</button>
+                </div>
+                <h3 class="mt-4 text-center">Antecedentes</h3>
+                <table class="mt-4" style="width: 100%;">
+                    <thead>
+                        <th>Caso</th>
+                    </thead>
+                    <tbody id="antecedentesDePaciente">
+
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="toggleModalEditclient()" data-dismiss="modal">Cerrar</button>
-                <button onclick="editclient()" class="btn btn-primary">Editar</button>
+                <button type="button" class="btn btn-secondary" onclick="toggleModalAntecedentes()" data-dismiss="modal">Cerrar</button>
+
             </div>
         </div>
     </div>
@@ -360,6 +359,7 @@
         }
         activeclient = !activeclient;
     }
+    toggleModalAntecedentes
 
     function agregarHis() {
         $.ajax({
@@ -395,6 +395,76 @@
         event.preventDefault();
     }
     let idPaciente = 0;
+
+    function agregarAntecedente() {
+        $.ajax({
+            url: "api/antecedentes.php",
+            type: "POST",
+            data: {
+                type: 2,
+                id: idPaciente,
+                fecha: $("#fechaH").val(),
+                antecedente: $("#antecedentesPaciente").val()
+            },
+            cache: false,
+            success: function(dataResult) {
+                console.log(dataResult)
+                var dataResult = JSON.parse(dataResult);
+                if (dataResult.statusCode == 200) {
+
+                    Swal.fire({
+                        title: 'Antecedente agregado',
+                        icon: 'success',
+                    })
+
+                } else {
+                    Swal.fire({
+                        title: 'Error al agregar antecedente',
+                        icon: 'error',
+                    })
+                }
+            }
+        });
+        event.preventDefault();
+    }
+
+    function toggleModalAntecedentes(apellido, nombre, doc, ndoc, id) {
+        if (activeclient2) {
+            $('#antecedentes').modal('hide');
+        } else {
+            $('#antecedentes').modal('show');
+            $("#historialA").html(apellido + " " + nombre + " " + doc + " No: " + ndoc)
+
+        }
+        idPaciente = id;
+        activeclient2 = !activeclient2;
+        let his = ""
+        $.ajax({
+            url: "api/antecedentes.php",
+            type: "GET",
+            data: {
+                type: 1,
+                id: id
+            },
+            DataType: 'json',
+            success: function(dataResult) {
+                var result = JSON.parse(dataResult);
+                if (dataResult.statusCode != 201) {
+                    for (const [id, data_1] of Object.entries(result)) {
+
+                        his += `<tr><td> ${data_1.nombre}</td></tr>`;
+                    }
+                } else {
+                    for (const [id, data_1] of Object.entries(result)) {
+                        his += `<tr>Error Al obtener datos
+                                                                </tr>`;
+                    }
+                }
+                $("#antecedentesDePaciente").html(his);
+            },
+        });
+
+    }
 
     function toggleModalHistoria(apellido, nombre, doc, ndoc, id) {
         if (activeclient2) {

@@ -46,7 +46,9 @@ include_once("includes/sidebar.php");
                                                 <td><?php echo $res->nombre ?></td>
                                                 <td><?php echo $res->tipo_doc ?></td>
                                                 <td><?php echo $res->n_doc ?></td>
-                                                <td> <button class="btn btn-success" onclick="toggleModalHistoria('<?php echo $res->apellido ?>','<?php echo $res->nombre ?>','<?php echo $res->tipo_doc ?>','<?php echo $res->n_doc ?>',<?php echo $res->id ?>)">Historia</button> <button class="btn btn-warning">Antecedentes</button> </td>
+                                                <td> <button class="btn btn-success" onclick="toggleModalHistoria('<?php echo $res->apellido ?>','<?php echo $res->nombre ?>','<?php echo $res->tipo_doc ?>','<?php echo $res->n_doc ?>',<?php echo $res->id ?>)">Historia</button>
+                                                    <button onclick="toggleModalAntecedentes('<?php echo $res->apellido ?>','<?php echo $res->nombre ?>','<?php echo $res->tipo_doc ?>','<?php echo $res->n_doc ?>',<?php echo $res->id ?>)" class="btn btn-warning">Antecedentes</button>
+                                                </td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>
@@ -69,6 +71,7 @@ include_once("includes/sidebar.php");
         include_once("selects/localidad.php");
         include_once("selects/tipoPaciente.php");
         include_once("selects/mision.php");
+        include_once("selects/antecedentes.php");
         ?>
 
 </main>

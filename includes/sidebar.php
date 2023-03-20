@@ -16,15 +16,6 @@ if (!isset($_SESSION["rol"]) || $_SESSION["rol"] == 0) {
   </div>
   <div class="collapse navbar-collapse  w-auto mt-4" id="sidenav-collapse-main">
     <ul class="navbar-nav">
-      <!-- <li class="nav-item">
-        <a class="nav-link active" href="./dashboard.php">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Dashboard</span>
-        </a>
-      </li> -->
-
       <li class="nav-item">
         <a class="nav-link " href="./principal.php">
           <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -33,39 +24,6 @@ if (!isset($_SESSION["rol"]) || $_SESSION["rol"] == 0) {
           <span class="nav-link-text ms-1">Pacientes</span>
         </a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link " href="./container.php">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Inicio</span>
-        </a>
-      </li> -->
-
-      <li class="nav-item">
-        <a class="nav-link " href="./historias.php">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Historias</span>
-        </a>
-      </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link " href="./contracts.php">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Pacientes</span>
-        </a>
-      </li> -->
-      <!-- <li class="nav-item">
-        <a class="nav-link " href="./users.php">
-          <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-          </div>
-          <span class="nav-link-text ms-1">Usuarios</span>
-        </a>
-      </li> -->
 
     </ul>
 
@@ -73,25 +31,4 @@ if (!isset($_SESSION["rol"]) || $_SESSION["rol"] == 0) {
   <div class="sidenav-footer mx-3 ">
     <a href="./logout.php" class="btn btn-danger btn-sm w-100 mb-3">Salir</a>
   </div>
-  <script>
-    sucursal();
-
-    function sucursal() {
-      $.ajax({
-        url: "api/sucursal.php",
-        type: "GET",
-        data: {
-          type: 0
-        },
-        cache: false,
-        success: function(dataResult) {
-          let data = JSON.parse(dataResult);
-
-          $("#nombre").text(data[0].nombre);
-          console.log(data[0].logo);
-          $("#logo").attr("src", `${data[0].logo}`);
-        }
-      });
-    }
-  </script>
 </aside>
